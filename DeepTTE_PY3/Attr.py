@@ -14,6 +14,11 @@ class Attr_Net(nn.Module):
     def build(self):
         for name,dim_in,dim_out in Attr_Net.embeded_dims:
             self.add_module(name+'_em',nn.Embedding(dim_in,dim_out))
+    def out_size(self):
+        sz=0
+        for name,dim_in,dim_out in Attr_Net.embeded_dims:
+            sz+=dim_out
+        return int(sz+1)
     def forward(self,attr):
         em_list=[]
         for name,dim_in,dim_out in Attr_Net.embeded_dims:

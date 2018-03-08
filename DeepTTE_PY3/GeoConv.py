@@ -5,9 +5,9 @@ import utils
 import numpy as np
 from torch.autograd import Variable
 
-class Net(nn.Module):
+class Conv_Net(nn.Module):
     def __init__(self,kernel_size,num_filter):
-        super(Net,self).__init__()
+        super(Conv_Net,self).__init__()
         self.kernel_size=kernel_size
         self.num_filter=num_filter
         self.build()

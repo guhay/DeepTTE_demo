@@ -12,7 +12,8 @@ class Spatio_Net(nn.Module):
         self.kernel_size=kernel_size
         self.num_filter=num_filter
         self.pooling_method=pooling_method
-        self.geo_conv=GeoConv.Net(kernel_size,num_filter)
+        self.hidden_size=hidden_size
+        self.geo_conv=GeoConv.Conv_Net(kernel_size,num_filter)
 
         if rnn=='lstm':
             self.rnn=nn.LSTM(input_size=self.num_filter+1+attr_size,hidden_size=hidden_size,num_layers=num_layers,batch_first=True)
@@ -23,6 +24,8 @@ class Spatio_Net(nn.Module):
         lens=torch.FloatTensor(lens)    #[bs]
         lens=Variable(torch.unsqueeze(lens,dim=1))  #[bs,1]
         return hiddens/lens
+    def out_size(self):
+        return int(self.hidden_size)
     def forward(self,traj,attr_t):
         conv_locs=self.geo_conv(traj)
         attr_t=torch.unsqueeze(attr_t,dim=1)    #[bs,1,attr_size]
